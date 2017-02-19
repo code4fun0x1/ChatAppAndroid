@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="225dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="bottom"
+    android:foregroundGravity="top"
+    android:orientation="vertical"
+    android:backgroundTint="#73000000"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+
+    <ImageView
+        android:id="@+id/coverPic"
+        android:layout_width="fill_parent"
+        android:layout_height="215dp"
+        android:padding="0dp"
+        android:scaleType="fitXY"
+        android:background="#8a000000"
+        android:src="@drawable/photodefault"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_menu_manage"
+        android:id="@+id/selectCover"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        app:elevation="2dp"
+        app:backgroundTint="?android:attr/colorPressedHighlight"
+        android:tint="@android:color/black"
+        app:rippleColor="@android:color/holo_red_light" />
+
+    <TextView
+        android:background="#ad292626"
+        android:id="@+id/accountName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Android Studio"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:paddingTop="8dp"
+        android:paddingBottom="0dp"
+        android:paddingLeft="30dp"
+        android:layout_above="@+id/accountId"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:background="#ad292626"
+        android:id="@+id/accountId"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:text="android.studio@android.com"
+        android:textSize="15sp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="30dp"
+        android:layout_alignTop="@+id/selectCover"
+        android:layout_alignParentStart="true" />
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        app:civ_border_width="1dp"
+        android:src="@drawable/default_profile_pic"
+        app:civ_border_color="@color/colorAccent"
+        android:adjustViewBounds="false"
+        android:elevation="@dimen/design_snackbar_elevation"
+        android:id="@+id/ndPropic"
+
+        android:layout_marginLeft="16dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="18dp"
+        android:layout_above="@+id/accountName"
+        android:layout_alignParentStart="true" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:clickable="true"
+        app:srcCompat="@drawable/ic_menu_camera"
+        android:id="@+id/selectNewProfilePic"
+        app:backgroundTint="#b2f71823"
+        app:elevation="7dp"
+        android:background="#df292626"
+        app:fabSize="mini"
+        app:rippleColor="@android:color/holo_red_light"
+        android:layout_marginStart="57dp"
+        android:layout_alignBottom="@+id/ndPropic"
+        android:layout_alignStart="@+id/ndPropic"
+        android:layout_width="35dp"
+        android:layout_height="35dp" />
+
+</RelativeLayout>
