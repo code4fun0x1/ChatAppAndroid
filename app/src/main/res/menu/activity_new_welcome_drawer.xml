@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <group android:checkableBehavior="single">
+<item android:title="Media">
+<menu>
         <item
             android:id="@+id/capture"
             android:icon="@drawable/ic_menu_camera"
@@ -10,9 +10,18 @@
             android:id="@+id/attachment"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Attachment" />
+</menu>
+</item>
+    <item android:title="System" >
+        <menu>
+            <item android:id="@+id/action_settings"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Setting"/>
 
 
-    </group>
+        </menu>
+    </item>
+
 
 
 

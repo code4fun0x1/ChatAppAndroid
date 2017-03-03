@@ -35,15 +35,15 @@ public class NewImprovedHolder extends RecyclerView.ViewHolder implements View.O
         super(view);
         this.context=context;
         this.v=view;
-        circularimage=(CircularImageView) v.findViewById(R.id.networkImageView);
-        imagecontent=(ImageView)v.findViewById(R.id.ivContent);
-       // title=(TextView)v.findViewById(R.id.tvName);
-        secondryImageLayout=(FrameLayout)v.findViewById(R.id.secondry_imagelayout);
-
-        content=(TextView)v.findViewById(R.id.tvContent);
-        loadImageButton=(ImageButton)v.findViewById(R.id.imageloadButton);
-        progressbar=(ProgressBar)v.findViewById(R.id.progressBar);
-       // v.setOnCreateContextMenuListener(this);
+//        circularimage=(CircularImageView) v.findViewById(R.id.networkImageView);
+//        imagecontent=(ImageView)v.findViewById(R.id.ivContent);
+//       // title=(TextView)v.findViewById(R.id.tvName);
+//        secondryImageLayout=(FrameLayout)v.findViewById(R.id.secondry_imagelayout);
+//
+//        content=(TextView)v.findViewById(R.id.tvContent);
+//       // loadImageButton=(ImageButton)v.findViewById(R.id.imageloadButton);
+//        progressbar=(ProgressBar)v.findViewById(R.id.progressBar);
+//       // v.setOnCreateContextMenuListener(this);
 
     }
 

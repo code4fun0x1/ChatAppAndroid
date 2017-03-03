@@ -76,7 +76,7 @@
         android:textColorHint="#66000000"
         android:textSize="@dimen/abc_text_size_large_material"
         tools:backgroundTint="@color/colorPrimaryDark"
-        />
+        android:inputType="textEmailAddress" />
 </LinearLayout>
 
                 <LinearLayout

@@ -17,7 +17,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -73,7 +73,7 @@ public class Welcome extends AppCompatActivity
 
 //192.168.172.1
 
-    FloatingActionButton setting,prosetting;
+    FloatingActionButton setting,prosetting,bsend;
     ImageButton cameraAction;
     Bitmap bmp;
     CircularImageView propic;
@@ -81,8 +81,9 @@ public class Welcome extends AppCompatActivity
     TextView accountName, accountId;
     private Toolbar toolbar;
     String fullSizeImagePath=null;
-    FloatingActionButton bsend;
-    AppCompatEditText etmessage;
+    //FloatingActionButton bsend;
+    //FancyButton bsend;
+    EditText etmessage;
     static String _id = "", _name = "", _propic = "";
     public static int _cid = 0;
     //CustomAdapter adapter;
@@ -173,7 +174,7 @@ public class Welcome extends AppCompatActivity
                     String profilePicPath;
                     profilePicPath = String.valueOf(dataSnapshot.child("propic").getValue());
                     if (!profilePicPath.equals("default"))
-                        Picasso.with(getApplicationContext()).load(profilePicPath).into(propic);
+                        Picasso.with(getApplicationContext()).load(profilePicPath).resize(100,100).into(propic);
                     accountName.setText(String.valueOf(dataSnapshot.child("name").getValue()));
                     accountId.setText(mAuth.getCurrentUser().getEmail());
                 }
@@ -191,16 +192,18 @@ public class Welcome extends AppCompatActivity
 
 
         coverPic = (ImageView) v.findViewById(R.id.coverPic);
-        setting=(FloatingActionButton)v.findViewById(R.id.selectCover);
+        //setting=(FloatingActionButton)v.findViewById(R.id.selectCover);
         prosetting=(FloatingActionButton)v.findViewById(R.id.selectNewProfilePic);
         cameraAction=(ImageButton)findViewById(R.id.camera_action);
         cameraAction.setOnClickListener(this);
-        setting.setOnClickListener(this);
+       // setting.setOnClickListener(this);
         prosetting.setOnClickListener(this);
 
 
-        etmessage = (AppCompatEditText) findViewById(R.id.etMessage);
+        etmessage = (EditText) findViewById(R.id.etMessage);
         bsend = (FloatingActionButton) findViewById(R.id.bsend);
+        //bsend = (FancyButton) findViewById(R.id.bsend);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         recyclerview = (RecyclerView) findViewById(R.id.mainbody);
         bsend.setOnClickListener(this);
@@ -237,7 +240,7 @@ public class Welcome extends AppCompatActivity
 
 
 
-    public class FireAdapter extends FirebaseRecyclerAdapter<ChatModel,FireHolder>{
+    public class FireAdapter extends FirebaseRecyclerAdapter<ChatModel,RecyclerView.ViewHolder>{
 
 
         /**
@@ -251,73 +254,100 @@ public class Welcome extends AppCompatActivity
          *                        using some combination of {@code limit()}, {@code startAt()}, and {@code endAt()}.
          */
         public FireAdapter(Class<ChatModel> modelClass, int modelLayout, Class<FireHolder> viewHolderClass, Query ref) {
-            super(ChatModel.class, R.layout.chat_left, FireHolder.class, chatReference);
+            super(ChatModel.class, R.layout.chat_left, RecyclerView.ViewHolder.class, chatReference);
         }
 
         @Override
-        public FireHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v=null;
-            if(viewType==0)
+            if(viewType==0){
                 v=getLayoutInflater().inflate(R.layout.chat_left,parent,false);
-            else
+                return new FireHolder(v);
+            }
+            else if(viewType==2){
                 v=getLayoutInflater().inflate(R.layout.chat_right,parent,false);
+                return new FireHolder(v);
 
-            return new FireHolder(v);
+            }
+            else if(viewType==1){
+                v=getLayoutInflater().inflate(R.layout.chat_left_image,parent,false);
+                return new FireHolderImage(v);
+
+            }
+            else if(viewType==3){
+                v=getLayoutInflater().inflate(R.layout.chat_right_image,parent,false);
+                return new FireHolderImage(v);
+            }
+            return null;
         }
 
         @Override
-        protected void populateViewHolder(final FireHolder viewHolder, final ChatModel model, int position) {
+        protected void populateViewHolder(final RecyclerView.ViewHolder viewHolder, final ChatModel model, int position) {
+
+            DatabaseReference tUser=profileRefernce.child(model.getUid());
+
 
 
             if(model.getMtype().equals("pic")){
-                viewHolder.content.setVisibility(View.GONE);
-                viewHolder.secondryImageLayout.setVisibility(View.VISIBLE);
-                //viewHolder.progressbar.setVisibility(View.VISIBLE);
-                Picasso.with(getApplicationContext()).load(model.getMessage()).networkPolicy(NetworkPolicy.OFFLINE).into(viewHolder.imagecontent, new Callback() {
+
+                final FireHolderImage holderImage=(FireHolderImage)viewHolder;
+
+                Picasso.with(getApplicationContext()).load(model.getMessage()).networkPolicy(NetworkPolicy.OFFLINE).resize(150,150).into(holderImage.imagecontent, new Callback() {
                     @Override
                     public void onSuccess() {
-                       viewHolder.progressbar.setVisibility(View.GONE);
+                        holderImage.progressbar.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onError() {
-                        viewHolder.progressbar.setVisibility(View.GONE);
-                        Picasso.with(getApplicationContext()).load(model.getMessage()).into(viewHolder.imagecontent);
+                        holderImage.progressbar.setVisibility(View.GONE);
+                        Picasso.with(getApplicationContext()).load(model.getMessage()).resize(150,150).into(holderImage.imagecontent);
                     }
                 });
 
-                viewHolder.imagecontent.setOnClickListener(new View.OnClickListener() {
+                holderImage.imagecontent.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent i=new Intent(Welcome.this,FullscreenActivity.class);
-                        ActivityOptions options=ActivityOptions.makeSceneTransitionAnimation(Welcome.this,viewHolder.imagecontent,"zoom");
+                        ActivityOptions options=ActivityOptions.makeSceneTransitionAnimation(Welcome.this,holderImage.imagecontent,"zoom");
                         i.putExtra("path",model.getMessage());
                         startActivity(i,options.toBundle());
                     }
                 });
+
+//                tUser.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        String profilePicPath;
+//                        profilePicPath=String.valueOf(dataSnapshot.child("propic").getValue());
+//                        if(!profilePicPath.equals("default"))
+//                            Picasso.with(Welcome.this).load(profilePicPath).resize(60,60).into(holderImage.circularimage);
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//
+//                    }
+//                });
+
+            }else {
+                final FireHolder  holderText=(FireHolder)viewHolder;
+                holderText.content.setText(model.getMessage());
+                tUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String profilePicPath;
+                        profilePicPath=String.valueOf(dataSnapshot.child("propic").getValue());
+                        if(!profilePicPath.equals("default"))
+                            Picasso.with(Welcome.this).load(profilePicPath).resize(60,60).into(holderText.circularimage);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
-            else{
-                viewHolder.content.setVisibility(View.VISIBLE);
-                viewHolder.secondryImageLayout.setVisibility(View.GONE);
-                viewHolder.content.setText(model.getMessage());
-            }
-            DatabaseReference tUser=profileRefernce.child(model.getUid());
-
-            tUser.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    String profilePicPath;
-                    profilePicPath=String.valueOf(dataSnapshot.child("propic").getValue());
-                    if(!profilePicPath.equals("default"))
-                    Picasso.with(Welcome.this).load(profilePicPath).into(viewHolder.circularimage);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
 
 
         }
@@ -327,10 +357,17 @@ public class Welcome extends AppCompatActivity
         @Override
         public int getItemViewType(int position) {
             ChatModel model=getItem(position);
-            if(model.getUid().equals(mAuth.getCurrentUser().getUid()))
-                return 0;
-            else
-                return 1;
+            if(model.getUid().equals(mAuth.getCurrentUser().getUid())){
+                if (!model.getMtype().equals("pic"))
+                    return 0;
+                else
+                    return 1;
+            }else{
+                if (!model.getMtype().equals("pic"))
+                    return 2;
+                else
+                    return 3;
+            }
         }
     }
 
@@ -342,27 +379,43 @@ public class Welcome extends AppCompatActivity
         CircularImageView circularimage;
         // TextView title;
         TextView content;
-        ImageView imagecontent;
-        //ImageButton loadImageButton,overflowButton;
-        ProgressBar progressbar;
-        FrameLayout secondryImageLayout;
 
         public FireHolder(View itemView) {
             super(itemView);
             v=itemView;
             circularimage=(CircularImageView) v.findViewById(R.id.networkImageView);
-            imagecontent=(ImageView)v.findViewById(R.id.ivContent);
             // title=(TextView)v.findViewById(R.id.tvName);
-            secondryImageLayout=(FrameLayout)v.findViewById(R.id.secondry_imagelayout);
 
             content=(TextView)v.findViewById(R.id.tvContent);
-            progressbar=(ProgressBar)v.findViewById(R.id.progressBar);
         }
 
 
 
     }
 
+    public class FireHolderImage extends RecyclerView.ViewHolder{
+
+        View v;
+        CircularImageView circularimage;
+        // TextView title;
+        ImageView imagecontent;
+        //ImageButton loadImageButton,overflowButton;
+        ProgressBar progressbar;
+        FrameLayout secondryImageLayout;
+
+        public FireHolderImage(View itemView) {
+            super(itemView);
+            v=itemView;
+            circularimage=(CircularImageView) v.findViewById(R.id.networkImageView);
+            imagecontent=(ImageView)v.findViewById(R.id.ivContent);
+            // title=(TextView)v.findViewById(R.id.tvName);
+            secondryImageLayout=(FrameLayout)v.findViewById(R.id.secondry_imagelayout);
+            progressbar=(ProgressBar)v.findViewById(R.id.progressBar);
+        }
+
+
+
+    }
 
     @Override
     public void onClick(View v) {
@@ -371,10 +424,10 @@ public class Welcome extends AppCompatActivity
             handleCameraAction();
 
         }
-        if(v.getId()==R.id.selectCover){
-            Intent cover = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(cover, 12345);
-        }
+//        if(v.getId()==R.id.selectCover){
+//            Intent cover = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//            startActivityForResult(cover, 12345);
+//        }
         if(v.getId()==R.id.selectNewProfilePic){
 
             Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

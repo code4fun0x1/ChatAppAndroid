@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    app:cardBackgroundColor="#00ffffff"
-    android:layout_width="match_parent"
-    android:padding="2dp"
-    android:layout_marginRight="30dp"
-    android:layout_height="wrap_content">
-
-    <android.support.v7.widget.CardView
-        app:cardBackgroundColor="#012622"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="@dimen/cardview_default_elevation"
+        app:cardBackgroundColor="#545656"
         app:cardCornerRadius="18dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -36,59 +31,17 @@
                     android:id="@+id/tvContent"
 
                     android:layout_height="wrap_content" />
-                <FrameLayout
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/secondry_imagelayout"
-
-                    android:maxWidth="270dp"
-                    android:maxHeight="220dp"
-                    >
-                    <ImageView
-                        android:background="#dfd1d1"
-                        android:id="@+id/ivContent"
-                        android:scaleType="fitXY"
-                        android:transitionName="zoom"
-                        android:layout_width="270dp"
-                        android:layout_height="220dp"
-                        android:maxHeight="220dp"
-                        android:maxWidth="270dp"
-                        />
-                    <ImageButton
-                        android:layout_width="60dp"
-                        android:translationZ="10dp"
-                        android:background="#00fabe4d"
-                        android:scaleType="fitXY"
-                        android:visibility="gone"
-                        android:src="@drawable/ic_sync_black_24dp"
-                        android:id="@+id/imageloadButton"
-                        android:layout_gravity="center"
-                        android:layout_height="60dp" />
-                    <ProgressBar
-                        android:visibility="visible"
-                        android:id="@+id/progressBar"
-                        style="?android:attr/progressBarStyleLarge"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_height="wrap_content"
-                        tools:visibility="visible"
-                        android:indeterminate="true" />
-                </FrameLayout>
 
             </LinearLayout>
             <com.mikhaellopez.circularimageview.CircularImageView
-                android:layout_width="35dp"
-                app:civ_border="true"
-                app:civ_border_width="1dp"
+                android:layout_width="33dp"
                 app:civ_shadow="false"
-                app:civ_border_color="#26c6da"
+                app:civ_border="false"
+                android:layout_margin="0.5dp"
                 android:src="@drawable/default_profile_pic"
-                android:layout_height="35dp"
+                android:layout_height="33dp"
                 android:id="@+id/networkImageView" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 
-
-</LinearLayout>
 

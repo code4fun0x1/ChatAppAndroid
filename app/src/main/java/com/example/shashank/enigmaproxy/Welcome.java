@@ -133,7 +133,7 @@ public class Welcome extends AppCompatActivity
         View v = navigationView.getHeaderView(0);
         propic = (CircularImageView) v.findViewById(R.id.ndPropic);
         coverPic = (ImageView) v.findViewById(R.id.coverPic);
-        setting=(FloatingActionButton)v.findViewById(R.id.selectCover);
+       // setting=(FloatingActionButton)v.findViewById(R.id.selectCover);
         prosetting=(FloatingActionButton)v.findViewById(R.id.selectNewProfilePic);
         cameraAction=(ImageButton)findViewById(R.id.camera_action);
         cameraAction.setOnClickListener(this);
@@ -330,12 +330,12 @@ public class Welcome extends AppCompatActivity
             handleCameraAction();
 
         }
-        if(v.getId()==R.id.selectCover){
-            Intent cover = new Intent(Intent.ACTION_PICK,
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            // Start the Intent
-            startActivityForResult(cover, 12345);
-        }
+//        if(v.getId()==R.id.selectCover){
+//            Intent cover = new Intent(Intent.ACTION_PICK,
+//                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//            // Start the Intent
+//            startActivityForResult(cover, 12345);
+//        }
         if(v.getId()==R.id.selectNewProfilePic){
 
             Intent profile = new Intent(Intent.ACTION_PICK,
