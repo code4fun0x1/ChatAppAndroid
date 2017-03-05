@@ -58,6 +58,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="80"
                     android:enabled="true"
+
                     android:hint="Email"
                     android:inputType="textEmailAddress"
                     android:lines="1"

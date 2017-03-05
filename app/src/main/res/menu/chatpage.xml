@@ -5,7 +5,7 @@
         android:id="@+id/action_requests"
         app:showAsAction="always"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_person_black_24dp"
+        android:icon="@drawable/ic_people_black"
         android:title="Requests" />
             <item
                 android:orderInCategory="200"
