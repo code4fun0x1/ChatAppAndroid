@@ -22,7 +22,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +33,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -82,7 +82,7 @@ public class Welcome extends AppCompatActivity
     private Toolbar toolbar;
     private BroadcastReceiver receiver;
     FloatingActionButton bsend;
-    AppCompatEditText etmessage;
+    EditText etmessage;
     static String _id = "", _name = "", _propic = "";
     public static int _cid = 0;
     //StatusData statusData;
@@ -236,7 +236,7 @@ public class Welcome extends AppCompatActivity
         accountId.setText("ID  :  " + idpref.getString("ID", "-1"));
         accountName.setText(idpref.getString("name", "Anonymous").toUpperCase());
 
-        etmessage = (AppCompatEditText) findViewById(R.id.etMessage);
+        etmessage = (EditText) findViewById(R.id.etMessage);
         bsend = (FloatingActionButton) findViewById(R.id.bsend);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         recyclerview = (RecyclerView) findViewById(R.id.mainbody);
@@ -716,7 +716,7 @@ public class Welcome extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.new_welcome, menu);
+        getMenuInflater().inflate(R.menu.chatpage, menu);
         return true;
     }
 

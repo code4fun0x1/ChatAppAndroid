@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/action_logout"
-        android:orderInCategory="400"
-        android:title="LogOut"
-        app:showAsAction="never" />
-
+    <item android:title="User">
+        <menu>
+            <item
+                android:id="@+id/profileSettings"
+                android:icon="@drawable/ic_person_black_24dp"
+                android:title="My Profile" />
+        </menu>
+    </item>
+    <item android:title="Authentication">
+        <menu>
+            <item
+                android:id="@+id/action_logout"
+                android:orderInCategory="100"
+                android:icon="@drawable/logout"
+                android:title="Logout"
+                app:showAsAction="never" />
+        </menu>
+    </item>
 </menu>

@@ -94,7 +94,7 @@
         android:clickable="true"
         app:srcCompat="@drawable/ic_menu_camera"
         android:id="@+id/selectNewProfilePic"
-        app:backgroundTint="#b2f71823"
+        app:backgroundTint="@color/colorPrimary"
         app:elevation="7dp"
         android:background="#df292626"
         app:fabSize="mini"
