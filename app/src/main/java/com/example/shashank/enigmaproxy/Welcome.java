@@ -735,16 +735,7 @@ public class Welcome extends AppCompatActivity
             finish();
             return true;
         }
-        if (id == R.id.changePropic) {
-       //     Intent i = new Intent(Welcome.this, ProfilePicSetting.class);
-      //      startActivity(i);
-            return true;
-        }
-        if (id == R.id.changeCoverpic) {
-       //     Intent i = new Intent(Welcome.this, CoverPicSetting.class);
-      //      startActivity(i);
-            return true;
-        }
+
         return false;
     }
 

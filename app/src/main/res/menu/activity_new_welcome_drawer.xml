@@ -16,7 +16,7 @@
         <menu>
             <item android:id="@+id/action_settings"
                 android:icon="@drawable/ic_menu_manage"
-                android:title="Setting"/>
+                android:title="Settings"/>
 
 
         </menu>

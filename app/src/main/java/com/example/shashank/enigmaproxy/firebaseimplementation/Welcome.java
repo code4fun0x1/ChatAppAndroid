@@ -74,7 +74,7 @@ public class Welcome extends AppCompatActivity
 //192.168.172.1
 
     FloatingActionButton setting,prosetting,bsend;
-    ImageButton cameraAction;
+    ImageButton cameraAction,btnAccounts;
     Bitmap bmp;
     CircularImageView propic;
     ImageView coverPic;
@@ -95,6 +95,8 @@ public class Welcome extends AppCompatActivity
     RecyclerView recyclerview;
     ProgressDialog dialog;
     LinearLayoutManager lmanager=null;
+    NavigationView navigationView;
+    boolean menuAccounts=false;
     
 
 
@@ -158,10 +160,13 @@ public class Welcome extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         View v = navigationView.getHeaderView(0);
+        btnAccounts=(ImageButton) v.findViewById(R.id.btn_accounts);
+        btnAccounts.setOnClickListener(this);
+
         propic = (CircularImageView) v.findViewById(R.id.ndPropic);
         accountId = (TextView) v.findViewById(R.id.accountId);
         accountName = (TextView) v.findViewById(R.id.accountName);
@@ -174,7 +179,7 @@ public class Welcome extends AppCompatActivity
                     String profilePicPath;
                     profilePicPath = String.valueOf(dataSnapshot.child("propic").getValue());
                     if (!profilePicPath.equals("default"))
-                        Picasso.with(getApplicationContext()).load(profilePicPath).resize(100,100).into(propic);
+                        Picasso.with(getApplicationContext()).load(profilePicPath).fit().centerCrop().into(propic);
                     accountName.setText(String.valueOf(dataSnapshot.child("name").getValue()));
                     accountId.setText(mAuth.getCurrentUser().getEmail());
                 }
@@ -292,7 +297,7 @@ public class Welcome extends AppCompatActivity
 
                 final FireHolderImage holderImage=(FireHolderImage)viewHolder;
 
-                Picasso.with(getApplicationContext()).load(model.getMessage()).networkPolicy(NetworkPolicy.OFFLINE).resize(150,150).into(holderImage.imagecontent, new Callback() {
+                Picasso.with(getApplicationContext()).load(model.getMessage()).networkPolicy(NetworkPolicy.OFFLINE).fit().centerCrop().into(holderImage.imagecontent, new Callback() {
                     @Override
                     public void onSuccess() {
                         holderImage.progressbar.setVisibility(View.GONE);
@@ -301,7 +306,7 @@ public class Welcome extends AppCompatActivity
                     @Override
                     public void onError() {
                         holderImage.progressbar.setVisibility(View.GONE);
-                        Picasso.with(getApplicationContext()).load(model.getMessage()).resize(150,150).into(holderImage.imagecontent);
+                        Picasso.with(getApplicationContext()).load(model.getMessage()).fit().centerCrop().into(holderImage.imagecontent);
                     }
                 });
 
@@ -339,7 +344,7 @@ public class Welcome extends AppCompatActivity
                         String profilePicPath;
                         profilePicPath=String.valueOf(dataSnapshot.child("propic").getValue());
                         if(!profilePicPath.equals("default"))
-                            Picasso.with(Welcome.this).load(profilePicPath).resize(60,60).into(holderText.circularimage);
+                            Picasso.with(Welcome.this).load(profilePicPath).fit().centerCrop().into(holderText.circularimage);
                     }
 
                     @Override
@@ -419,6 +424,17 @@ public class Welcome extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
+        if (v.getId() == R.id.btn_accounts) {
+            navigationView.getMenu().clear();
+            if(menuAccounts){
+                navigationView.inflateMenu(R.menu.activity_new_welcome_drawer);
+                menuAccounts=false;
+            }else{
+                navigationView.inflateMenu(R.menu.new_welcome);
+                menuAccounts=true;
+            }
+
+        }
         if (v.getId() == R.id.camera_action) {
 
             handleCameraAction();
@@ -526,7 +542,7 @@ public class Welcome extends AppCompatActivity
                         public void onComplete(@NonNull Task<Void> task) {
                             dialog.dismiss();
                             if(task.isSuccessful()){
-                                Picasso.with(getApplicationContext()).load(taskSnapshot.getDownloadUrl()).into(propic);
+                                Picasso.with(getApplicationContext()).load(taskSnapshot.getDownloadUrl()).fit().centerCrop().into(propic);
                                 Toast.makeText(Welcome.this,"Upload OK",Toast.LENGTH_SHORT).show();
                             }else{
                                 Toast.makeText(Welcome.this, "Upload Error", Toast.LENGTH_SHORT).show();
