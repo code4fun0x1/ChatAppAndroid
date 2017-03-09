@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.example.shashank.enigmaproxy.R;
+
+import java.util.ArrayList;
 
 public class FindFriendActivity extends AppCompatActivity {
 
@@ -33,7 +36,7 @@ public class FindFriendActivity extends AppCompatActivity {
 
 
 
-                mSearchView.swapSuggestions(null); //pass an arraylist
+                mSearchView.swapSuggestions(); //pass an arraylist
             }
         });
 
