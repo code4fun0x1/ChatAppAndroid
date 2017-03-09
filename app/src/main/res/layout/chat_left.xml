@@ -2,10 +2,9 @@
 <android.support.v7.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardUseCompatPadding="true"
-    app:cardElevation="@dimen/cardview_default_elevation"
         app:cardBackgroundColor="#545656"
         app:cardCornerRadius="18dp"
+    app:cardUseCompatPadding="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <RelativeLayout
@@ -34,12 +33,12 @@
 
             </LinearLayout>
             <com.mikhaellopez.circularimageview.CircularImageView
-                android:layout_width="33dp"
+                android:layout_width="30dp"
                 app:civ_shadow="false"
                 app:civ_border="false"
                 android:layout_margin="0.5dp"
                 android:src="@drawable/default_profile_pic"
-                android:layout_height="33dp"
+                android:layout_height="30dp"
                 android:id="@+id/networkImageView" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>

@@ -12,6 +12,8 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -480,7 +482,7 @@ public class Welcome extends AppCompatActivity
             fullSizeImagePath=image.getAbsolutePath();
             if(image!=null){
                 Uri photoURI= FileProvider.getUriForFile(this,"com.example.shashank.enigmaproxy.fileprovider",image);
-               // i.putExtra(MediaStore.EXTRA_OUTPUT,photoURI);
+                i.putExtra(MediaStore.EXTRA_OUTPUT,photoURI);
                 startActivityForResult(i, 555);
             }
 
@@ -494,8 +496,8 @@ public class Welcome extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode==555 && null != data) {
-            uploadPicToFirebase(data.getData());
+        if ( requestCode==555) {
+            uploadPicToFirebase(Uri.fromFile(new File(fullSizeImagePath)));
         }
         if (requestCode==12345 && resultCode == RESULT_OK && null != data) {
 
@@ -651,6 +653,15 @@ public class Welcome extends AppCompatActivity
         if(id==R.id.action_logout){
             mAuth.signOut();
         }
+        if(id==R.id.action_requests){
+            getSupportFragmentManager().beginTransaction().add(new FriendRequestFragment(),null).commit();
+        }
+        if(id==R.id.action_find){
+            startActivity(new Intent(Welcome.this,FindFriendActivity.class));
+            //getSupportActionBar().hide();
+
+        }
+
 
 
         return false;

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".Welcome"
+    android:id="@+id/entire_view"
     android:background="#a2b2b38f"
     app:layout_collapseParallaxMultiplier="1.0">
 
