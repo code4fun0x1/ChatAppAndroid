@@ -183,12 +183,19 @@ public class RegisterActivity extends AppCompatActivity {
         final String uid=mAuth.getCurrentUser().getUid();
         mRef=FirebaseDatabase.getInstance().getReference().child("users");
         final DatabaseReference tRef=mRef.child(uid);
-        tRef.child("name").setValue(fname+" "+lname);
+
+        UserModel newUser=new UserModel();
+        newUser.setName(mAuth.getCurrentUser().getDisplayName());
+        newUser.setUid(uid);
+        if(uName.getText().toString()!=null)
+        newUser.setEmail(uName.getText().toString());
+        newUser.setPropic("default");
+       // tRef.child("name").setValue(fname+" "+lname);
         //newUserObject.child("name").setValue(fname+" "+lname);
         //tRef.child("propic").setValue("default");
-
+        tRef.setValue(newUser);
         if(propicuri==null){
-            tRef.child("propic").setValue("default");
+           // tRef.child("propic").setValue("default");
             if(mAuth.getCurrentUser()!=null){
                 dialog.dismiss();
                 i=new Intent(RegisterActivity.this,Welcome.class);
