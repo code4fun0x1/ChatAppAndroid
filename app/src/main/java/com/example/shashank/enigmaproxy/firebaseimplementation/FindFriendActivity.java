@@ -4,20 +4,25 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
-import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.example.shashank.enigmaproxy.R;
-
-import java.util.ArrayList;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class FindFriendActivity extends AppCompatActivity {
 
     private FloatingSearchView mSearchView;
+    private DatabaseReference userDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_friend);
 
+        userDatabase= FirebaseDatabase.getInstance().getReference().child("users");
+        userDatabase.keepSynced(true);
         mSearchView=(FloatingSearchView)findViewById(R.id.floating_search_view);
         mSearchView.setOnHomeActionClickListener(new FloatingSearchView.OnHomeActionClickListener() {
 
@@ -30,13 +35,25 @@ public class FindFriendActivity extends AppCompatActivity {
             @Override
             public void onSearchTextChanged(String oldQuery, final String newQuery) {
 
-                //get suggestions based on newQuery
 
-                //pass them on to the search view
+                userDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                            mSearchView.swapSuggestions(null);
+                          //  imagesDir.add(imageSnapshot.child("address").getValue(String.class));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
 
-
-                mSearchView.swapSuggestions(); //pass an arraylist
+                 //pass an arraylist
             }
         });
 

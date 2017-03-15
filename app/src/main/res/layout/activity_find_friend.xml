@@ -20,5 +20,12 @@
         app:floatingSearch_leftActionMode="showHome"
         app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
     <!--app:floatingSearch_menu="@menu/menu_find_friends"-->
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/friend_search_recycler"
+        android:layout_marginTop="70dp"
+        android:layout_height="fill_parent">
+
+    </android.support.v7.widget.RecyclerView>
 
 </FrameLayout>
