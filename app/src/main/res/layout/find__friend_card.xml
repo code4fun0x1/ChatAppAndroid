@@ -39,33 +39,32 @@
 
     </LinearLayout>
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_weight="20"
             android:layout_height="match_parent">
             <ImageView
                 android:layout_width="match_parent"
                 android:id="@+id/ff_propic"
-
+                android:layout_gravity="center"
                 android:src="@drawable/anonymous_icon"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="6dp"
                 android:layout_height="75dp" />
-        </LinearLayout>
-        <LinearLayout
+        </FrameLayout>
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_weight="15"
             android:layout_height="match_parent">
             <ImageButton
                 android:id="@+id/ff_request"
-
-                android:layout_marginTop="18dp"
+                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:src="@drawable/ic_action_add_friend"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="6dp"
                 android:layout_height="wrap_content" />
-        </LinearLayout>
+        </FrameLayout>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
