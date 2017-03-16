@@ -69,6 +69,7 @@ public class FindFriendActivity extends AppCompatActivity {
                         for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                             Log.d(TAG, "onDataChange: "+snapshot.toString()+"\n");
                             UserModel user=new UserModel();
+                            user.setUid(snapshot.getKey());
                             if((String)snapshot.child("email").getValue()!=null)
                             user.setEmail((String)snapshot.child("email").getValue());
                             if((String)snapshot.child("name").getValue()!=null)
@@ -87,7 +88,7 @@ public class FindFriendActivity extends AppCompatActivity {
                             //mSearchView.swapSuggestions(null);
                           //  imagesDir.add(imageSnapshot.child("address").getValue(String.class));
                         }
-                        adapter.notifyAll();
+                        adapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -143,17 +144,31 @@ public class FindFriendActivity extends AppCompatActivity {
 
             holder.name.setText(friends.get(position).getName());
             holder.email.setText(friends.get(position).getEmail());
-            Picasso.with(getApplicationContext()).load(friends.get(position).getPropic()).fit().into(holder.propic);
+            Picasso.with(getApplicationContext()).load(friends.get(position).getPropic()).fit().centerCrop().into(holder.propic);
             holder.requestButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(FindFriendActivity.this,friends.get(position).getUid(),Toast.LENGTH_LONG).show();
-                    FriendRequestModel newRequest=new FriendRequestModel(
-                            mAuth.getCurrentUser().getDisplayName()
-                            , mAuth.getCurrentUser().getUid()
-                            ,userDatabase.child(mAuth.getCurrentUser().getUid()).child("propic").toString());
 
-                    userDatabase.child(friends.get(position).getUid()).child("requests").child(mAuth.getCurrentUser().getUid()).equals(newRequest);
+                    userDatabase.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Toast.makeText(FindFriendActivity.this,friends.get(position).getUid(),Toast.LENGTH_LONG).show();
+                            UserModel newRequest=new UserModel(
+                                    (String)dataSnapshot.child("name").getValue()
+                                    , mAuth.getCurrentUser().getUid()
+                                    ,userDatabase.child(mAuth.getCurrentUser().getUid()).child("propic").toString()
+                                    ,mAuth.getCurrentUser().getEmail());
+
+                            userDatabase.child(friends.get(position).getUid()).child("requests").child(mAuth.getCurrentUser().getUid()).setValue(newRequest);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
 
 
                 }

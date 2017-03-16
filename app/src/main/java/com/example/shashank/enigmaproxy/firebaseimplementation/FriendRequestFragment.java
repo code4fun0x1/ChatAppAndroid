@@ -80,7 +80,7 @@ public class FriendRequestFragment extends DialogFragment {
 
 
 
-    public class FireAdapter extends FirebaseRecyclerAdapter<FriendRequestModel,RecyclerView.ViewHolder> {
+    public class FireAdapter extends FirebaseRecyclerAdapter<UserModel,RecyclerView.ViewHolder> {
 
 
         /**
@@ -94,7 +94,7 @@ public class FriendRequestFragment extends DialogFragment {
          *                        using some combination of {@code limit()}, {@code startAt()}, and {@code endAt()}.
          */
         public FireAdapter(Class<FriendRequestModel> modelClass, int modelLayout, Class<FireHolder> viewHolderClass, Query ref) {
-            super(FriendRequestModel.class, R.layout.card_request, RecyclerView.ViewHolder.class, requestStore);
+            super(UserModel.class, R.layout.card_request, RecyclerView.ViewHolder.class, requestStore);
         }
 
         @Override
@@ -107,15 +107,12 @@ public class FriendRequestFragment extends DialogFragment {
         }
 
         @Override
-        protected void populateViewHolder(final RecyclerView.ViewHolder viewHolder, final FriendRequestModel model, int position) {
+        protected void populateViewHolder(final RecyclerView.ViewHolder viewHolder, final UserModel model, int position) {
 
            // DatabaseReference ref=requestStore.child(model.getUid());
             final FireHolder holder=(FireHolder)viewHolder;
             holder.nameView.setText(model.getName());
-            if(model.getMessage()!=null) {
-                if (!model.getMessage().trim().equals(""))
-                    holder.messageView.setText(model.getMessage());
-            }
+            holder.emailView.setText(model.getEmail());
             if(mAuth.getCurrentUser()!=null) {
                 tUser = usersStore.child(mAuth.getCurrentUser().getUid());
                 tUser.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -145,14 +142,14 @@ public class FriendRequestFragment extends DialogFragment {
         View v;
         ImageView profileIcon;
         TextView nameView;
-        TextView messageView;
+        TextView emailView;
 
         public FireHolder(View itemView) {
             super(itemView);
             v=itemView;
             profileIcon= (ImageView) v.findViewById(R.id.request_icon);
             nameView= (TextView) v.findViewById(R.id.request_name);
-            messageView= (TextView) v.findViewById(R.id.request_message);
+            emailView= (TextView) v.findViewById(R.id.request_email);
         }
 
 
