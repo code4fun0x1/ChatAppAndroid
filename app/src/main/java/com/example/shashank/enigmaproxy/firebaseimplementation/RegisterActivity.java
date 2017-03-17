@@ -185,7 +185,7 @@ public class RegisterActivity extends AppCompatActivity {
         final DatabaseReference tRef=mRef.child(uid);
 
         UserModel newUser=new UserModel();
-        newUser.setName(mAuth.getCurrentUser().getDisplayName());
+        newUser.setName(fname+" "+lname);
         newUser.setUid(uid);
         if(uName.getText().toString()!=null)
         newUser.setEmail(uName.getText().toString());

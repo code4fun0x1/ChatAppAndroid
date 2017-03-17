@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.example.shashank.enigmaproxy.R;
@@ -78,13 +77,20 @@ public class FindFriendActivity extends AppCompatActivity {
                             if((String)snapshot.child("propic").getValue()!=null)
                             user.setPropic((String)snapshot.child("propic").getValue());
                             try{
-                                if(user.getEmail().contains(newQuery) || user.getName().contains(newQuery)){
+                                if(user.getEmail().toLowerCase().contains(newQuery)){
                                     friends.add(user);
+                                    continue;
                                 }
 
                             }catch (Exception e){
 
                             }
+                            if(user.getName().toLowerCase().contains(newQuery)){
+                                friends.add(user);
+                            }
+
+
+
                             //mSearchView.swapSuggestions(null);
                           //  imagesDir.add(imageSnapshot.child("address").getValue(String.class));
                         }
@@ -152,11 +158,11 @@ public class FindFriendActivity extends AppCompatActivity {
                     userDatabase.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            Toast.makeText(FindFriendActivity.this,friends.get(position).getUid(),Toast.LENGTH_LONG).show();
+                            //Toast.makeText(FindFriendActivity.this,friends.get(position).getUid(),Toast.LENGTH_LONG).show();
                             UserModel newRequest=new UserModel(
                                     (String)dataSnapshot.child("name").getValue()
                                     , mAuth.getCurrentUser().getUid()
-                                    ,userDatabase.child(mAuth.getCurrentUser().getUid()).child("propic").toString()
+                                    ,(String)dataSnapshot.child("propic").getValue()
                                     ,mAuth.getCurrentUser().getEmail());
 
                             userDatabase.child(friends.get(position).getUid()).child("requests").child(mAuth.getCurrentUser().getUid()).setValue(newRequest);

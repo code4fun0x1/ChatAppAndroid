@@ -10,18 +10,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.shashank.enigmaproxy.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
@@ -115,22 +113,31 @@ public class FriendRequestFragment extends DialogFragment {
             holder.emailView.setText(model.getEmail());
             if(mAuth.getCurrentUser()!=null) {
                 tUser = usersStore.child(mAuth.getCurrentUser().getUid());
-                tUser.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
                         String profilePicPath;
-                        profilePicPath = String.valueOf(dataSnapshot.child("propic").getValue());
+                        profilePicPath = String.valueOf(model.getPropic());
                         if (!profilePicPath.equals("default"))
                             Picasso.with(getContext()).load(profilePicPath).fit().centerCrop().into(holder.profileIcon);
 
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
             }
+
+            holder.accept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    usersStore.child(mAuth.getCurrentUser().getUid()).child("friends").child(model.getUid()).setValue(model);
+                    usersStore.child(mAuth.getCurrentUser().getUid()).child("mychat").child(model.getUid()).push().child("Welcome Mate!!");
+                    requestStore.child(model.getUid()).removeValue();
+                }
+            });
+
+            holder.reject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+
         }
 
     }
@@ -143,6 +150,7 @@ public class FriendRequestFragment extends DialogFragment {
         ImageView profileIcon;
         TextView nameView;
         TextView emailView;
+        Button accept,reject;
 
         public FireHolder(View itemView) {
             super(itemView);
@@ -150,6 +158,9 @@ public class FriendRequestFragment extends DialogFragment {
             profileIcon= (ImageView) v.findViewById(R.id.request_icon);
             nameView= (TextView) v.findViewById(R.id.request_name);
             emailView= (TextView) v.findViewById(R.id.request_email);
+            accept=(Button)v.findViewById(R.id.accept_request);
+            reject=(Button)v.findViewById(R.id.reject_request);
+
         }
 
 
