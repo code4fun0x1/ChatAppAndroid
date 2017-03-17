@@ -94,14 +94,14 @@ public class FriendRequestFragment extends DialogFragment {
          *                        using some combination of {@code limit()}, {@code startAt()}, and {@code endAt()}.
          */
         public FireAdapter(Class<FriendRequestModel> modelClass, int modelLayout, Class<FireHolder> viewHolderClass, Query ref) {
-            super(UserModel.class, R.layout.card_request, RecyclerView.ViewHolder.class, requestStore);
+            super(UserModel.class, R.layout.card_friend_request, RecyclerView.ViewHolder.class, requestStore);
         }
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v=null;
 
-                v=inflater.inflate(R.layout.card_request,parent,false);
+                v=inflater.inflate(R.layout.card_friend_request,parent,false);
                 return new FireHolder(v);
 
         }
