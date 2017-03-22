@@ -135,7 +135,7 @@ public class Welcome extends AppCompatActivity
         coverPic = (ImageView) v.findViewById(R.id.coverPic);
        // setting=(FloatingActionButton)v.findViewById(R.id.selectCover);
         prosetting=(FloatingActionButton)v.findViewById(R.id.selectNewProfilePic);
-        cameraAction=(ImageButton)findViewById(R.id.camera_action);
+       // cameraAction=(ImageButton)findViewById(R.id.camera_action);
         cameraAction.setOnClickListener(this);
         setting.setOnClickListener(this);
         prosetting.setOnClickListener(this);
@@ -236,8 +236,8 @@ public class Welcome extends AppCompatActivity
         accountId.setText("ID  :  " + idpref.getString("ID", "-1"));
         accountName.setText(idpref.getString("name", "Anonymous").toUpperCase());
 
-        etmessage = (EditText) findViewById(R.id.etMessage);
-        bsend = (FloatingActionButton) findViewById(R.id.bsend);
+      //  etmessage = (EditText) findViewById(R.id.etMessage);
+     //   bsend = (FloatingActionButton) findViewById(R.id.bsend);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         recyclerview = (RecyclerView) findViewById(R.id.mainbody);
         bsend.setOnClickListener(this);
@@ -325,11 +325,11 @@ public class Welcome extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.camera_action) {
-
-            handleCameraAction();
-
-        }
+//        if (v.getId() == R.id.camera_action) {
+//
+//            handleCameraAction();
+//
+//        }
 //        if(v.getId()==R.id.selectCover){
 //            Intent cover = new Intent(Intent.ACTION_PICK,
 //                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -342,50 +342,50 @@ public class Welcome extends AppCompatActivity
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(profile, 22222);
         }
-
-        if (v.getId() == R.id.bsend) {
-            Toast.makeText(getApplicationContext(), etmessage.getText().toString(), Toast.LENGTH_SHORT).show();
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, CentralURL.MESSAGE_SENT_URL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    if (response.contains("~")) {
-                        Toast.makeText(getApplicationContext(), "Sent", Toast.LENGTH_SHORT).show();
-                        //  fillView(_id,"me","message",etmessage.getText().toString(),_name,_propic);
-                    }
-                    etmessage.setText("");
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-            }) {
-
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    HashMap<String, String> hashmap = new HashMap<String, String>();
-                    hashmap.put("id", _id);
-                    hashmap.put("message", etmessage.getText().toString());
-
-
-                    return hashmap;
-                }
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    HashMap<String, String> headers = new HashMap<String, String>();
-                    // do not add anything here
-                    return headers;
-                }
-            };
-            RequestQueue myQueue= MySingleton.getInstance(getApplicationContext()).getRequestQueue();
-
-
-            myQueue.add(stringRequest);
-
-         //   MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
-
-        }
+//
+//        if (v.getId() == R.id.bsend) {
+//            Toast.makeText(getApplicationContext(), etmessage.getText().toString(), Toast.LENGTH_SHORT).show();
+//            StringRequest stringRequest = new StringRequest(Request.Method.POST, CentralURL.MESSAGE_SENT_URL, new Response.Listener<String>() {
+//                @Override
+//                public void onResponse(String response) {
+//                    if (response.contains("~")) {
+//                        Toast.makeText(getApplicationContext(), "Sent", Toast.LENGTH_SHORT).show();
+//                        //  fillView(_id,"me","message",etmessage.getText().toString(),_name,_propic);
+//                    }
+//                    etmessage.setText("");
+//                }
+//            }, new Response.ErrorListener() {
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//
+//                }
+//            }) {
+//
+//                @Override
+//                protected Map<String, String> getParams() throws AuthFailureError {
+//                    HashMap<String, String> hashmap = new HashMap<String, String>();
+//                    hashmap.put("id", _id);
+//                    hashmap.put("message", etmessage.getText().toString());
+//
+//
+//                    return hashmap;
+//                }
+//
+//                @Override
+//                public Map<String, String> getHeaders() throws AuthFailureError {
+//                    HashMap<String, String> headers = new HashMap<String, String>();
+//                    // do not add anything here
+//                    return headers;
+//                }
+//            };
+//            RequestQueue myQueue= MySingleton.getInstance(getApplicationContext()).getRequestQueue();
+//
+//
+//            myQueue.add(stringRequest);
+//
+//         //   MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+//
+//        }
 
 
     }

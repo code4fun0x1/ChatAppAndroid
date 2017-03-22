@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardUseCompatPadding="false"
+    android:layout_marginTop="100dp"
+    android:elevation="0dp"
+    android:layout_height="120dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:weightSum="100"
+        android:orientation="horizontal"
+        android:layout_height="match_parent">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:layout_width="90dp"
+            android:src="@drawable/anonymous_icon"
+            android:layout_marginTop="15dp"
+            android:id="@+id/profileThumbnail"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_height="90dp" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_marginTop="20dp"
+    android:orientation="vertical"
+    android:layout_height="80dp">
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:text="Ichigo Kurosaki"
+        android:paddingLeft="16dp"
+        android:id="@+id/et_name"
+        android:layout_marginRight="8dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/primary_text_light"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:layout_width="match_parent"
+        android:text="Live Free Live Happy"
+        android:paddingLeft="16dp"
+        android:id="@+id/et_status"
+        android:layout_marginRight="8dp"
+        android:textSize="12sp"
+        android:textColor="#6c6060"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="1dp"
+                ></View>
+        </FrameLayout>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

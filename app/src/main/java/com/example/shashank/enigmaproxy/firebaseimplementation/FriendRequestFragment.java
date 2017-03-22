@@ -133,7 +133,7 @@ public class FriendRequestFragment extends DialogFragment {
             holder.reject.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    requestStore.child(model.getUid()).removeValue();
                 }
             });
 

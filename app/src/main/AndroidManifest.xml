@@ -79,7 +79,14 @@
                 <action android:name="com.example.shashank.enigmaproxy.appshortcut" />
             </intent-filter>
         </activity>
-        <activity android:name=".firebaseimplementation.FindFriendActivity" android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".firebaseimplementation.FindFriendActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".firebaseimplementation.MainActivity"
+            android:label="@string/title_activity_new_welcome"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme"></activity>
+
     </application>
 
 </manifest>

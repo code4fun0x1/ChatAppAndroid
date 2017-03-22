@@ -219,7 +219,7 @@ public class RegisterActivity extends AppCompatActivity {
                            if(task.isSuccessful()){
 
                                if(mAuth.getCurrentUser()!=null){
-                                   i=new Intent(RegisterActivity.this,Welcome.class);
+                                   i=new Intent(RegisterActivity.this,MainActivity.class);
                                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                    startActivity(i);
                                    finish();

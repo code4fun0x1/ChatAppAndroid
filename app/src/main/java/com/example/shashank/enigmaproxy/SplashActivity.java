@@ -34,7 +34,9 @@ public class SplashActivity extends AppCompatActivity {
                 Nammu.askForPermission(SplashActivity.this,  Manifest.permission.WRITE_EXTERNAL_STORAGE, new PermissionCallback() {
                     @Override
                     public void permissionGranted() {
-                        startActivity(new Intent(SplashActivity.this, com.example.shashank.enigmaproxy.firebaseimplementation.Welcome.class));
+                        //startActivity(new Intent(SplashActivity.this, com.example.shashank.enigmaproxy.firebaseimplementation.Welcome.class));
+                        startActivity(new Intent(SplashActivity.this, com.example.shashank.enigmaproxy.firebaseimplementation.MainActivity.class));
+
                         finish();
                     }
 

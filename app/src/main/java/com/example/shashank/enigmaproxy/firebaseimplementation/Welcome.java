@@ -201,14 +201,14 @@ public class Welcome extends AppCompatActivity
         coverPic = (ImageView) v.findViewById(R.id.coverPic);
         //setting=(FloatingActionButton)v.findViewById(R.id.selectCover);
         prosetting=(FloatingActionButton)v.findViewById(R.id.selectNewProfilePic);
-        cameraAction=(ImageButton)findViewById(R.id.camera_action);
+      //  cameraAction=(ImageButton)findViewById(R.id.camera_action);
         cameraAction.setOnClickListener(this);
        // setting.setOnClickListener(this);
         prosetting.setOnClickListener(this);
 
 
-        etmessage = (EditText) findViewById(R.id.etMessage);
-        bsend = (FloatingActionButton) findViewById(R.id.bsend);
+      //  etmessage = (EditText) findViewById(R.id.etMessage);
+      //  bsend = (FloatingActionButton) findViewById(R.id.bsend);
         //bsend = (FancyButton) findViewById(R.id.bsend);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -437,11 +437,11 @@ public class Welcome extends AppCompatActivity
             }
 
         }
-        if (v.getId() == R.id.camera_action) {
-
-            handleCameraAction();
-
-        }
+//        if (v.getId() == R.id.camera_action) {
+//
+//            handleCameraAction();
+//
+//        }
 //        if(v.getId()==R.id.selectCover){
 //            Intent cover = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //            startActivityForResult(cover, 12345);
@@ -456,16 +456,16 @@ public class Welcome extends AppCompatActivity
 
         }
 
-        if (v.getId() == R.id.bsend) {
-
-            String message=etmessage.getText().toString();
-            ChatModel c=new ChatModel();
-            c.setMessage(message);
-            c.setMtype("text");
-            c.setUid(mAuth.getCurrentUser().getUid());
-            chatReference.push().setValue(c);
-            etmessage.setText("");
-        }
+//        if (v.getId() == R.id.bsend) {
+//
+//            String message=etmessage.getText().toString();
+//            ChatModel c=new ChatModel();
+//            c.setMessage(message);
+//            c.setMtype("text");
+//            c.setUid(mAuth.getCurrentUser().getUid());
+//            chatReference.push().setValue(c);
+//            etmessage.setText("");
+//        }
 
 
     }
