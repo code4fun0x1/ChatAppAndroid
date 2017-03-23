@@ -2,13 +2,15 @@ package com.example.shashank.enigmaproxy.firebaseimplementation;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.shashank.enigmaproxy.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -30,15 +32,17 @@ import com.squareup.picasso.Picasso;
 public class FriendListFragment extends Fragment {
 
 
+    public static final String TAG="FriendListFragment";
+
     View mainView;
     RecyclerView recyclerView;
     CircularImageView profileThumbnail;
-    EditText name;
     LinearLayoutManager layoutManager;
-    private DatabaseReference friendRef,mRef,usersRef;
-    private StorageReference profileStorage,mediaStorage;
-    private FirebaseAuth mAuth;
+     DatabaseReference friendRef,mRef,usersRef;
+     StorageReference profileStorage,mediaStorage;
+     FirebaseAuth mAuth;
     LayoutInflater inflater;
+    FirebaseAuth.AuthStateListener mAuthListener;
 
 
     public FriendListFragment() {
@@ -64,10 +68,27 @@ public class FriendListFragment extends Fragment {
         mainView=inflater.inflate(R.layout.fragment_friend_list, container, false);
         recyclerView=(RecyclerView)mainView.findViewById(R.id.mainbody);
         mAuth=FirebaseAuth.getInstance();
-        mRef= FirebaseDatabase.getInstance().getReference();
-        usersRef=mRef.child("users");
-        friendRef=mRef.child(mAuth.getCurrentUser().getUid()).child("friends");
+        mAuthListener=new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser()==null){
 
+                }
+            }
+        };
+        try {
+            mRef = FirebaseDatabase.getInstance().getReference();
+            usersRef = mRef.child("users");
+            friendRef = usersRef.child(mAuth.getCurrentUser().getUid()).child("friends");
+            usersRef.keepSynced(true);
+            friendRef.keepSynced(true);
+        }catch (Exception e){
+            Log.d(TAG, "onCreateView: "+e.toString());
+        }
+        FireAdapter adapter=new FireAdapter(UserModel.class,0,null,null);
+        layoutManager=new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
         profileStorage= FirebaseStorage.getInstance().getReference("profilepic");
         return mainView;
     }
@@ -122,6 +143,14 @@ public class FriendListFragment extends Fragment {
 
                     }
                 });
+
+                holder.v.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.onFriendClicked(model.getUid());
+                    }
+                });
+
             }
 
 
@@ -137,21 +166,33 @@ public class FriendListFragment extends Fragment {
 
         View v;
         CircularImageView profileTumbnail;
-        EditText name,status;
+        TextView name,status;
 
 
         public FireHolderImage(View itemView) {
             super(itemView);
             v=itemView;
             profileTumbnail=(CircularImageView)v.findViewById(R.id.profileThumbnail);
-            name=(EditText)v.findViewById(R.id.et_name);
-            status=(EditText)v.findViewById(R.id.et_status);
+            name=(TextView) v.findViewById(R.id.et_name);
+            status=(TextView) v.findViewById(R.id.et_status);
 
         }
 
 
 
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+        if(mAuth.getCurrentUser()==null){
+        }
+    }
 
+    @Override
+    public void onStop() {
+        mAuth.removeAuthStateListener(mAuthListener);
+        super.onStop();
+    }
 
 }

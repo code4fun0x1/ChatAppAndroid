@@ -202,9 +202,9 @@ public class Welcome extends AppCompatActivity
         //setting=(FloatingActionButton)v.findViewById(R.id.selectCover);
         prosetting=(FloatingActionButton)v.findViewById(R.id.selectNewProfilePic);
       //  cameraAction=(ImageButton)findViewById(R.id.camera_action);
-        cameraAction.setOnClickListener(this);
+      //  cameraAction.setOnClickListener(this);
        // setting.setOnClickListener(this);
-        prosetting.setOnClickListener(this);
+      //  prosetting.setOnClickListener(this);
 
 
       //  etmessage = (EditText) findViewById(R.id.etMessage);
@@ -213,7 +213,7 @@ public class Welcome extends AppCompatActivity
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         recyclerview = (RecyclerView) findViewById(R.id.mainbody);
-        bsend.setOnClickListener(this);
+        //bsend.setOnClickListener(this);
 
 
         //hide the soft keyboard on startup

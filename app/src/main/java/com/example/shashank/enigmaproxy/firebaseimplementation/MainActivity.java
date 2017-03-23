@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_new_welcome);
         mAuth=FirebaseAuth.getInstance();
         if(mAuth.getCurrentUser()==null){
             //  Toast.makeText(this, "NULL", Toast.LENGTH_SHORT).show();
@@ -71,7 +73,6 @@ public class MainActivity extends AppCompatActivity
         }else {
             // Toast.makeText(this, "NOT NULL", Toast.LENGTH_SHORT).show();
         }
-        setContentView(R.layout.activity_new_welcome);
         mAuthListener=new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -147,23 +148,26 @@ public class MainActivity extends AppCompatActivity
         prosetting=(FloatingActionButton)v.findViewById(R.id.selectNewProfilePic);
         //bsend = (FancyButton) findViewById(R.id.bsend);
 
-
-        manager=getSupportFragmentManager();
-        if(friendListFragment==null){
-            friendListFragment=new FriendListFragment();
-        }
-        friendListFragment.setOnFriendClickListener(new FriendListFragment.FriendClick() {
-            @Override
-            public void onFriendClicked(String uid) {
-                if(singleChat==null){
-                    singleChat=new SingleFriendChatFragment();
-                }
-                singleChat.receiveUID(uid);
-                manager.beginTransaction().replace(R.id.mainFragmentHolder,singleChat);
-
+        if(mAuth.getCurrentUser()!=null){
+            manager=getSupportFragmentManager();
+            if(friendListFragment==null){
+                friendListFragment=new FriendListFragment();
             }
-        });
-        manager.beginTransaction().replace(R.id.mainFragmentHolder,friendListFragment);
+            friendListFragment.setOnFriendClickListener(new FriendListFragment.FriendClick() {
+                @Override
+                public void onFriendClicked(String uid) {
+
+                        singleChat=SingleFriendChatFragment.newInstance(uid);
+
+                    //singleChat.receiveUID(uid);
+
+                    manager.beginTransaction().replace(R.id.mainFragmentHolder,singleChat).commit();
+
+                }
+            });
+            manager.beginTransaction().replace(R.id.mainFragmentHolder,friendListFragment).commit();
+
+        }
 
 
 

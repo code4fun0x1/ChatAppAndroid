@@ -99,7 +99,7 @@
         android:background="#df292626"
         android:clickable="true"
         android:tint="#FFF"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorDivider"
         app:elevation="7dp"
         app:fabSize="mini"
         app:rippleColor="@android:color/black"

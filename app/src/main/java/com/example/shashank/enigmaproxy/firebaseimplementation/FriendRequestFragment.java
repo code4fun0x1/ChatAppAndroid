@@ -17,9 +17,12 @@ import android.widget.TextView;
 import com.example.shashank.enigmaproxy.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
@@ -125,7 +128,26 @@ public class FriendRequestFragment extends DialogFragment {
                 @Override
                 public void onClick(View v) {
                     usersStore.child(mAuth.getCurrentUser().getUid()).child("friends").child(model.getUid()).setValue(model);
-                    usersStore.child(mAuth.getCurrentUser().getUid()).child("mychat").child(model.getUid()).push().child("Welcome Mate!!");
+                    final UserModel user=new UserModel();
+                    usersStore.child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            user.setUid((String)dataSnapshot.child("uid").getValue());
+                            user.setName((String)dataSnapshot.child("name").getValue());
+                            user.setEmail((String)dataSnapshot.child("email").getValue());
+                            user.setPropic((String)dataSnapshot.child("propic").getValue());
+                            usersStore.child(model.getUid()).child("friends").child(mAuth.getCurrentUser().getUid()).setValue(user);
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+                    // usersStore.child(mAuth.getCurrentUser().getUid()).child("mychat").child(model.getUid()).push().child("Welcome Mate!!");
                     requestStore.child(model.getUid()).removeValue();
                 }
             });

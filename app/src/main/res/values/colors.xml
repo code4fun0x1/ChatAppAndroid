@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ff1b1c</color>
-    <!--FFEE2E31-->
+    <!--<color name="colorPrimary">#ff1b1c</color>-->
+    <!--&lt;!&ndash;FFEE2E31&ndash;&gt;-->
 
-    <!--FF1B1C-->
-    <color name="colorPrimaryDark">#FFEE2E31</color>
-    <color name="colorAccent">#51eb1e</color>
-    <color name="customOrange">#cfb71c1c</color>
-    <color name="editTextColor">#f2f0f0</color>
-    <color name="sendBackground">#00ffffff</color>
-    <color name="uploadPageBackground">#c8000000</color>
-    <color name="mainBackgroundColor">#FF1B1C</color>
+    <!--&lt;!&ndash;FF1B1C&ndash;&gt;-->
+    <!--<color name="colorPrimaryDark">#FFEE2E31</color>-->
+    <!--<color name="colorAccent">#51eb1e</color>-->
+    <!--<color name="customOrange">#cfb71c1c</color>-->
+    <!--<color name="editTextColor">#f2f0f0</color>-->
+    <!--<color name="sendBackground">#00ffffff</color>-->
+    <!--<color name="uploadPageBackground">#c8000000</color>-->
+    <color name="mainBackgroundColor">#4CAF50</color>
     <color name="splash_color">#fff</color>
+    <color name="colorPrimary">#4CAF50</color>
+    <color name="colorPrimaryDark">#388E3C</color>
+    <color name="colorLightPrimary">#C8E6C9</color>
+    <color name="colorAccent">#9E9E9E</color>
+    <color name="colorPrimaryText">#FFFFFF</color>
+    <color name="colorSecondryText">#757575</color>
+    <color name="colorIcons">#FFFFFF</color>
+    <color name="colorDivider">#BDBDBD</color>
+
 
     <color name="black_overlay">#66000000</color>
 </resources>

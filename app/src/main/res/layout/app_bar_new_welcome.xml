@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     tools:context=".Welcome"
     android:id="@+id/entire_view"
-    android:background="#a2b2b38f"
+    android:background="#fff"
     app:layout_collapseParallaxMultiplier="1.0">
 
     <android.support.design.widget.AppBarLayout
@@ -19,7 +19,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#FF1B1C"
+            android:background="@color/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             android:elevation="2dp" />
 

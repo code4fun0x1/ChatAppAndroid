@@ -3,9 +3,11 @@
     android:orientation="vertical" android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardUseCompatPadding="false"
-    android:layout_marginTop="100dp"
     android:elevation="0dp"
-    android:layout_height="120dp">
+    android:focusable="true"
+    app:theme="@style/ThemeOverlay.AppCompat.Light"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:layout_height="100dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,13 +16,13 @@
         android:layout_height="match_parent">
 
         <com.mikhaellopez.circularimageview.CircularImageView
-            android:layout_width="90dp"
+            android:layout_width="70dp"
             android:src="@drawable/anonymous_icon"
             android:layout_marginTop="15dp"
             android:id="@+id/profileThumbnail"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_height="90dp" />
+            android:layout_height="70dp" />
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -32,16 +34,18 @@
     android:layout_height="80dp">
 
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:text="Ichigo Kurosaki"
         android:paddingLeft="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="4dp"
         android:id="@+id/et_name"
         android:layout_marginRight="8dp"
-        android:textSize="18sp"
+        android:textSize="22sp"
         android:textColor="@android:color/primary_text_light"
         android:layout_height="wrap_content" />
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:text="Live Free Live Happy"
         android:paddingLeft="16dp"
@@ -56,6 +60,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0.5dp"
                 android:layout_gravity="bottom"
+
                 android:layout_marginBottom="1dp"
                 ></View>
         </FrameLayout>
