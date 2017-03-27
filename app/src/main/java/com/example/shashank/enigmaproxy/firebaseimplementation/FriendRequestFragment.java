@@ -196,7 +196,7 @@ public class FriendRequestFragment extends DialogFragment {
     @Override
     public void onResume() {
 
-        //getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         super.onResume();
     }
 

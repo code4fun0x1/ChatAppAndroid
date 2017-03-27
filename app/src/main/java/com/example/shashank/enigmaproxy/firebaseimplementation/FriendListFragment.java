@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shashank.enigmaproxy.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -52,7 +53,7 @@ public class FriendListFragment extends Fragment {
     private FriendClick mListener=null;
 
     public interface FriendClick{
-        void onFriendClicked(String uid);
+        void onFriendClicked(UserModel uid);
     }
 
     public void setOnFriendClickListener(FriendClick listener){
@@ -126,6 +127,9 @@ public class FriendListFragment extends Fragment {
 
             final FireHolderImage holder=(FireHolderImage) viewHolder;
             holder.name.setText(model.getName());
+            if(position==getItemCount()-1){
+
+            }
             if(mAuth.getCurrentUser()!=null) {
 
                 usersRef.child(model.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -134,7 +138,7 @@ public class FriendListFragment extends Fragment {
                         String profilePicPath;
                         profilePicPath = String.valueOf(dataSnapshot.child("propic").getValue());
                         if (!profilePicPath.equals("default"))
-                            Picasso.with(getContext()).load(profilePicPath).fit().centerCrop().into(holder.profileTumbnail);
+                            Picasso.with(getActivity().getApplicationContext()).load(profilePicPath).fit().centerCrop().into(holder.profileTumbnail);
 
                     }
 
@@ -147,7 +151,12 @@ public class FriendListFragment extends Fragment {
                 holder.v.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mListener.onFriendClicked(model.getUid());
+                        if(model==null){
+                            Toast.makeText(getActivity().getApplicationContext(),"Null in FriendList",Toast.LENGTH_SHORT).show();
+                        }else {
+                            mListener.onFriendClicked(model);
+
+                        }
                     }
                 });
 
@@ -164,7 +173,7 @@ public class FriendListFragment extends Fragment {
 
     public class FireHolderImage extends RecyclerView.ViewHolder{
 
-        View v;
+        View v,seperator;
         CircularImageView profileTumbnail;
         TextView name,status;
 

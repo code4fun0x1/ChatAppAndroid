@@ -744,13 +744,13 @@ public class Welcome extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.capture) {
-            handleCameraAction();
-
-        } else if (id == R.id.attachment) {
-            Intent i = new Intent(Welcome.this, UploadImage.class);
-            startActivityForResult(i, 999);
-        }
+//        if (id == R.id.capture) {
+//            handleCameraAction();
+//
+//        } else if (id == R.id.attachment) {
+//            Intent i = new Intent(Welcome.this, UploadImage.class);
+//            startActivityForResult(i, 999);
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

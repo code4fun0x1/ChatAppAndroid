@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
@@ -19,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -27,9 +27,11 @@ public class FindFriendActivity extends AppCompatActivity {
 
     private static final String TAG = "FindFriendActivity" ;
     private FloatingSearchView mSearchView;
-    private DatabaseReference userDatabase;
+    private DatabaseReference userDatabase,alreadyFriend;
     private FirebaseAuth mAuth;
     private ArrayList<UserModel> friends=new ArrayList<>();
+    private ArrayList<UserModel> alreadyFriends=new ArrayList<>();
+
     FindRecycler adapter;
     LinearLayoutManager layoutManager;
     RecyclerView listFriend;
@@ -46,6 +48,7 @@ public class FindFriendActivity extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
         userDatabase= FirebaseDatabase.getInstance().getReference().child("users");
         userDatabase.keepSynced(true);
+        alreadyFriend=userDatabase.child(mAuth.getCurrentUser().getUid()).child("friends");
         mSearchView=(FloatingSearchView)findViewById(R.id.floating_search_view);
         mSearchView.setOnHomeActionClickListener(new FloatingSearchView.OnHomeActionClickListener() {
 
@@ -54,6 +57,9 @@ public class FindFriendActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
+
 
         mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
@@ -66,34 +72,34 @@ public class FindFriendActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
                         for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                            Log.d(TAG, "onDataChange: "+snapshot.toString()+"\n");
-                            UserModel user=new UserModel();
+                            Log.d(TAG, "onDataChange: " + snapshot.toString() + "\n");
+                            UserModel user = new UserModel();
                             user.setUid(snapshot.getKey());
-                            if((String)snapshot.child("email").getValue()!=null)
-                            user.setEmail((String)snapshot.child("email").getValue());
-                            if((String)snapshot.child("name").getValue()!=null)
-                            user.setName((String)snapshot.child("name").getValue());
+                            if ((String) snapshot.child("email").getValue() != null)
+                                user.setEmail((String) snapshot.child("email").getValue());
+                            if ((String) snapshot.child("name").getValue() != null)
+                                user.setName((String) snapshot.child("name").getValue());
                             user.setUid(snapshot.getKey());
-                            if((String)snapshot.child("propic").getValue()!=null)
-                            user.setPropic((String)snapshot.child("propic").getValue());
-                            try{
-                                if(user.getEmail().toLowerCase().contains(newQuery)){
+                            if ((String) snapshot.child("propic").getValue() != null)
+                                user.setPropic((String) snapshot.child("propic").getValue());
+                            try {
+                                if (user.getEmail().toLowerCase().contains(newQuery)) {
                                     friends.add(user);
                                     continue;
                                 }
 
-                            }catch (Exception e){
+                            } catch (Exception e) {
 
                             }
-                            if(user.getName().toLowerCase().contains(newQuery)){
+                            if (user.getName().toLowerCase().contains(newQuery)) {
                                 friends.add(user);
                             }
 
 
-
                             //mSearchView.swapSuggestions(null);
-                          //  imagesDir.add(imageSnapshot.child("address").getValue(String.class));
+                            //  imagesDir.add(imageSnapshot.child("address").getValue(String.class));
                         }
+
                         adapter.notifyDataSetChanged();
                     }
 
@@ -122,7 +128,7 @@ public class FindFriendActivity extends AppCompatActivity {
 
         TextView name,email;
         View v;
-        ImageView propic;
+        CircularImageView propic;
         ImageButton requestButton;
 
         public FindHolder(View itemView) {
@@ -130,7 +136,7 @@ public class FindFriendActivity extends AppCompatActivity {
             v=itemView;
             name=(TextView)v.findViewById(R.id.ff_name);
             email=(TextView)v.findViewById(R.id.ff_email);
-            propic=(ImageView) v.findViewById(R.id.ff_propic);
+            propic=(CircularImageView) v.findViewById(R.id.ff_propic);
             requestButton=(ImageButton) v.findViewById(R.id.ff_request);
 
         }

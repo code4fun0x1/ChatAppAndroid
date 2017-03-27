@@ -12,6 +12,7 @@
     <FrameLayout
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_gravity="right"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -27,7 +28,6 @@
             >
 
             <ImageView
-                android:background="@drawable/right_round_corner_background"
                 android:id="@+id/ivContent"
                 android:scaleType="centerCrop"
                 android:transitionName="zoom"

@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="@dimen/cardview_default_elevation"
+    app:cardElevation="0dp"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     app:cardUseCompatPadding="true"
@@ -13,6 +13,17 @@
         android:orientation="horizontal"
         android:weightSum="100"
         android:layout_height="match_parent">
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="20"
+            android:layout_height="match_parent">
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:layout_width="match_parent"
+                android:id="@+id/ff_propic"
+                android:layout_gravity="center"
+                android:src="@drawable/anonymous_icon"
+                android:layout_height="75dp" />
+        </FrameLayout>
     <LinearLayout
         android:layout_width="0dp"
         android:orientation="vertical"
@@ -39,19 +50,7 @@
 
     </LinearLayout>
 
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_weight="20"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_width="match_parent"
-                android:id="@+id/ff_propic"
-                android:layout_gravity="center"
-                android:src="@drawable/anonymous_icon"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="6dp"
-                android:layout_height="75dp" />
-        </FrameLayout>
+
         <FrameLayout
             android:layout_width="0dp"
             android:layout_weight="15"

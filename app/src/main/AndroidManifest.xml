@@ -82,11 +82,11 @@
         <activity
             android:name=".firebaseimplementation.FindFriendActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".firebaseimplementation.MainActivity"
+        <activity
+            android:name=".firebaseimplementation.MainActivity"
             android:label="@string/title_activity_new_welcome"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme"></activity>
-
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

@@ -1,6 +1,8 @@
 package com.example.shashank.enigmaproxy.firebaseimplementation;
 
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -20,11 +22,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shashank.enigmaproxy.FullscreenActivity;
 import com.example.shashank.enigmaproxy.ListModel;
@@ -51,6 +55,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 import static com.google.android.gms.internal.zzs.TAG;
 
 /**
@@ -59,14 +64,17 @@ import static com.google.android.gms.internal.zzs.TAG;
 public class SingleFriendChatFragment extends Fragment implements View.OnClickListener {
 
 
+
     TextView tt;
     View mainView;
     LayoutInflater inflaater;
-
     ImageView bsend;
-    ImageButton cameraAction,btnAccounts;
+    View viewUploadPanel;
+    boolean uploadPanelOnDisplay=false;
+    ImageButton cameraAction,galleryAction,revealPanel;
     Bitmap bmp;
-    CircularImageView propic;
+    CircularImageView friendPropic;
+    View currentUserPropic;
     ImageView coverPic;
     TextView accountName, accountId;
     private Toolbar toolbar;
@@ -87,17 +95,25 @@ public class SingleFriendChatFragment extends Fragment implements View.OnClickLi
     LinearLayoutManager lmanager=null;
     NavigationView navigationView;
     boolean menuAccounts=false;
-    String uid="";
-
+    UserModel currentFriend=new UserModel();
     public SingleFriendChatFragment() {
         // Required empty public constructor
     }
 
 
-    public static SingleFriendChatFragment newInstance(String u)  {
+
+
+
+
+    public static SingleFriendChatFragment newInstance(UserModel u)  {
 
         Bundle args = new Bundle();
-        args.putString("uid",u);
+        args.putString("uid",u.getUid());
+        args.putString("name",u.getName());
+        args.putString("email",u.getEmail());
+
+        args.putString("propic",u.getPropic());
+
         SingleFriendChatFragment fragment = new SingleFriendChatFragment();
         fragment.setArguments(args);
         return fragment;
@@ -110,9 +126,13 @@ public class SingleFriendChatFragment extends Fragment implements View.OnClickLi
         mainView=inflater.inflate(R.layout.fragment_single_friend_chat, container, false);
         inflaater=inflater;
         try{
-            uid=getArguments().getString("uid");
-        }catch (Exception e){
+            currentFriend.setUid(getArguments().getString("uid"));
+            currentFriend.setName(getArguments().getString("name"));
+            currentFriend.setEmail(getArguments().getString("email"));
+            currentFriend.setPropic(getArguments().getString("propic"));
 
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
         initialize();
@@ -128,9 +148,9 @@ public class SingleFriendChatFragment extends Fragment implements View.OnClickLi
 
         //this is the reference
         mRef= FirebaseDatabase.getInstance().getReference().child("users");
-        profileRefernce=mRef.child(mAuth.getCurrentUser().getUid()).child("friends").child(uid);
+        profileRefernce=mRef.child(mAuth.getCurrentUser().getUid()).child("friends").child(currentFriend.getUid());
         myChatReference =profileRefernce.child("chat");
-        friendChatReference=mRef.child(uid).child("friends").child(mAuth.getCurrentUser().getUid()).child("chat");
+        friendChatReference=mRef.child(currentFriend.getUid()).child("friends").child(mAuth.getCurrentUser().getUid()).child("chat");
 
         myChatReference.keepSynced(true);
         profileRefernce.keepSynced(true);
@@ -139,8 +159,13 @@ public class SingleFriendChatFragment extends Fragment implements View.OnClickLi
         recyclerview=(RecyclerView)mainView.findViewById(R.id.chatBody);
 
         recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
+        revealPanel=(ImageButton)mainView.findViewById(R.id.revealPanel);
+        revealPanel.setOnClickListener(this);
         cameraAction=(ImageButton)mainView.findViewById(R.id.camera_action);
         cameraAction.setOnClickListener(this);
+        galleryAction=(ImageButton)mainView.findViewById(R.id.gallery_action);
+        galleryAction.setOnClickListener(this);
+        viewUploadPanel=mainView.findViewById(R.id.uploadRevealPanel);
 //        // setting.setOnClickListener(this);
 //        prosetting.setOnClickListener(this);
 //
@@ -162,6 +187,7 @@ public class SingleFriendChatFragment extends Fragment implements View.OnClickLi
 
 
 
+
     public void receiveUID(String uid){
         tt.setText(uid);
     }
@@ -169,11 +195,66 @@ public class SingleFriendChatFragment extends Fragment implements View.OnClickLi
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.camera_action) {
+        if (v.getId() == R.id.revealPanel) {
 
-            handleCameraAction();
+           // handleCameraAction();
+            if(uploadPanelOnDisplay){
+                uploadPanelOnDisplay=false;
+                //its on display so we have to close it
+                // get the center for the clipping circle
+                int cx = viewUploadPanel.getRight();
+                int cy = viewUploadPanel.getBottom();
+
+// get the initial radius for the clipping circle
+                float initialRadius = (float) Math.hypot(viewUploadPanel.getWidth(), viewUploadPanel.getHeight());
+
+// create the animation (the final radius is zero)
+                Animator anim =
+                        ViewAnimationUtils.createCircularReveal(viewUploadPanel, 0, cy, initialRadius, 0);
+
+// make the view invisible when the animation is done
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        viewUploadPanel.setVisibility(View.GONE);
+                    }
+                });
+
+// start the animation
+                anim.start();
+            }else{
+                uploadPanelOnDisplay=true;
+                //its closed so open it
+                viewUploadPanel.setVisibility(View.INVISIBLE);
+                int cx = viewUploadPanel.getRight();
+                int cy = viewUploadPanel.getBottom();
+
+// get the final radius for the clipping circle
+                float finalRadius = (float) Math.hypot(viewUploadPanel.getWidth(), viewUploadPanel.getHeight());
+
+// create the animator for this view (the start radius is zero)
+                Animator anim =
+                        ViewAnimationUtils.createCircularReveal(viewUploadPanel, 0, cy, 0, finalRadius);
+
+// make the view visible and start the animation
+                viewUploadPanel.setVisibility(View.VISIBLE);
+                anim.start();
+            }
 
         }
+        if(R.id.camera_action==v.getId()){
+            handleCameraAction();
+        }
+        if(v.getId()==R.id.gallery_action){
+            Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            i.setType("image/*");
+            Intent chooser = Intent.createChooser(i, "SELECT IMAGE");
+            if (chooser.resolveActivity(getActivity().getPackageManager()) != null)
+                startActivityForResult(i, 999);
+        }
+
+
         if (v.getId() == R.id.bsend) {
 
             String message=etmessage.getText().toString().trim();
@@ -216,8 +297,12 @@ public class SingleFriendChatFragment extends Fragment implements View.OnClickLi
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if ( requestCode==555) {
+        if ( requestCode==555 && resultCode == RESULT_OK ) {
             uploadPicToFirebase(Uri.fromFile(new File(fullSizeImagePath)));
+           // uploadPicToFirebase(data.getData());
+
+        }else if (requestCode!=RESULT_OK){
+            Toast.makeText(getActivity(), "NOT OK", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -240,6 +325,8 @@ public class SingleFriendChatFragment extends Fragment implements View.OnClickLi
                 c.setMtype("pic");
                 c.setUid(mAuth.getCurrentUser().getUid());
                 myChatReference.push().setValue(c);
+                friendChatReference.push().setValue(c);
+
                 dialog.dismiss();
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="220dp"
@@ -24,37 +24,38 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+
     <TextView
-        android:background="#000000"
         android:id="@+id/accountId"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:text="android.studio@android.com"
-        android:textSize="14sp"
-        android:paddingTop="5dp"
+      android:layout_gravity="bottom"
+        android:background="#000000"
+        android:lineSpacingExtra="30sp"
         android:paddingBottom="10dp"
         android:paddingLeft="16dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
+        android:paddingTop="5dp"
+        android:text="android.studio@android.com"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="14sp"
         tools:ignore="RtlSymmetry" />
 
     <TextView
-        android:background="#000000"
         android:id="@+id/accountName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Android Studio"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:paddingTop="8dp"
+        android:background="#000000"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:lineSpacingExtra="10sp"
         android:paddingBottom="0dp"
         android:paddingLeft="16dp"
-        android:layout_above="@+id/accountId"
-        android:layout_alignParentStart="true"
-        android:fontFamily="sans-serif" />
+        android:paddingTop="8dp"
+        android:text="Android Studio"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
 
     <ImageButton
@@ -62,8 +63,7 @@
         android:id="@+id/btn_accounts"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom|right"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
@@ -73,37 +73,42 @@
         android:focusableInTouchMode="false"
         android:padding="6dp"
         android:scaleType="fitXY"
-        android:tint="@color/colorPrimary"
+        android:tint="#ffff10"
         app:srcCompat="@drawable/ic_action_dropdown"
         tools:focusable="false" />
+<android.support.design.widget.CoordinatorLayout
+    android:layout_width="wrap_content"
+    android:layout_gravity="center"
+    android:id="@+id/currentHolder"
+    android:layout_height="wrap_content">
 
     <com.mikhaellopez.circularimageview.CircularImageView
         app:civ_border="false"
         android:src="@drawable/default_profile_pic"
         android:adjustViewBounds="false"
         android:elevation="@dimen/design_snackbar_elevation"
+        android:layout_gravity="center"
         android:id="@+id/ndPropic"
-        android:layout_marginLeft="16dp"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:layout_marginBottom="25dp"
-        android:layout_above="@+id/accountName"
-        android:layout_centerHorizontal="true" />
-
+ />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/selectNewProfilePic"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_alignBottom="@+id/ndPropic"
-        android:layout_alignEnd="@+id/ndPropic"
+
+        android:layout_gravity="bottom|right"
         android:background="#df292626"
         android:clickable="true"
         android:tint="#FFF"
         app:backgroundTint="@color/colorDivider"
-        app:elevation="7dp"
+        app:elevation="6dp"
         app:fabSize="mini"
         app:rippleColor="@android:color/black"
         app:srcCompat="@drawable/ic_menu_camera" />
 
 
-</RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+
+</FrameLayout>
