@@ -1,6 +1,7 @@
 package com.example.shashank.enigmaproxy.firebaseimplementation;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.example.shashank.enigmaproxy.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +28,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
+
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -130,6 +134,9 @@ public class FriendListFragment extends Fragment {
             if(position==getItemCount()-1){
 
             }
+
+            updatePresenceStatus(model,holder);
+
             if(mAuth.getCurrentUser()!=null) {
 
                 usersRef.child(model.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -190,6 +197,71 @@ public class FriendListFragment extends Fragment {
 
 
     }
+
+
+    void updatePresenceStatus(UserModel model , final FireHolderImage holder){
+
+        // since I can connect from multiple devices, we store each connection instance separately
+// any time that connectionsRef's value is null (i.e. has no children) I am offline
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference myConnectionsRef = database.getReference().child("users").child(model.getUid()).child("connections");
+
+// stores the timestamp of my last disconnect (the last time I was seen online)
+        final DatabaseReference lastOnlineRef = database.getReference().child("users").child(model.getUid()).child("lastonline");
+
+        myConnectionsRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if(dataSnapshot.getValue(Boolean.class)){
+                    holder.status.setTextColor(Color.GREEN);
+                    holder.status.setText("Online");
+                }else {
+                    holder.status.setTextColor(Color.RED);
+
+                    holder.status.setText(("Offline"));
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                holder.status.setText("Offline");
+                holder.status.setTextColor(Color.RED);
+
+                lastOnlineRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Date d=new Date(dataSnapshot.getValue(Long.class));
+                        holder.status.setTextColor(Color.LTGRAY);
+                        holder.status.setText(d.toString());
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
     @Override
     public void onStart() {
         super.onStart();

@@ -34,6 +34,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
         }else {
+            updatePresenceStatus();
             // Toast.makeText(this, "NOT NULL", Toast.LENGTH_SHORT).show();
         }
         mAuthListener=new FirebaseAuth.AuthStateListener() {
@@ -345,6 +347,44 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    void updatePresenceStatus(){
+
+        // since I can connect from multiple devices, we store each connection instance separately
+// any time that connectionsRef's value is null (i.e. has no children) I am offline
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference myConnectionsRef = database.getReference().child("users").child(mAuth.getCurrentUser().getUid()).child("connections");
+
+// stores the timestamp of my last disconnect (the last time I was seen online)
+        final DatabaseReference lastOnlineRef = database.getReference().child("users").child(mAuth.getCurrentUser().getUid()).child("lastonline");
+
+        final DatabaseReference connectedRef = database.getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                boolean connected = snapshot.getValue(Boolean.class);
+                if (connected) {
+                    // add this device to my connections list
+                    // this value could contain info about the device or a timestamp too
+                    DatabaseReference con = myConnectionsRef.push();
+                    con.setValue(Boolean.TRUE);
+
+                    // when this device disconnects, remove it
+                    con.onDisconnect().removeValue();
+
+                    // when I disconnect, update the last time I was seen online
+                    lastOnlineRef.onDisconnect().setValue(ServerValue.TIMESTAMP);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                System.err.println("Listener was cancelled at .info/connected");
+            }
+        });
+
     }
 
 
